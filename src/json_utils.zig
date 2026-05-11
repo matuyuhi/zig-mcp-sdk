@@ -77,3 +77,18 @@ test "getBool" {
     try testing.expect(getBool(.{ .integer = 1 }) == null);
     try testing.expect(getBool(null) == null);
 }
+
+test "getArray" {
+    var array = std.json.Array.init(testing.allocator);
+    defer array.deinit();
+
+    // Verify successful extraction
+    const extracted = getArray(.{ .array = array }).?;
+    try testing.expectEqual(array.items.len, extracted.items.len);
+
+    // Verify null is returned for non-array values
+    try testing.expect(getArray(.{ .integer = 1 }) == null);
+
+    // Verify null is returned for null
+    try testing.expect(getArray(null) == null);
+}
