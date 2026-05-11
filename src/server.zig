@@ -44,8 +44,6 @@ pub fn run(allocator: std.mem.Allocator, config: ServerConfig) !void {
         const trimmed = std.mem.trim(u8, line, " \t\r");
         if (trimmed.len == 0) continue;
 
-        std.debug.print("{s}: received: {s}\n", .{ config.name, trimmed });
-
         // Copy line since takeDelimiter returns a slice into the read buffer
         const line_copy = allocator.dupe(u8, trimmed) catch continue;
         defer allocator.free(line_copy);
